@@ -1,3 +1,7 @@
-localhost
+bartlettd-commento.duckdns.org
+
+tls {
+	dns lego_deprecated duckdns
+}
 
 reverse_proxy commento:8081
