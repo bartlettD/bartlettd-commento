@@ -4,19 +4,23 @@ services:
   proxy:
     image: docker.pkg.github.com/williamjacksn/docker-caddy-lego/caddy-lego
     ports: 
-      - 8080:80
-      - 8443:443
+      - 80:80
+      - 443:443
+    environment:
+      DUCKDNS_TOKEN:
     depends_on:
       - commento
     volumes:
-      - ./Caddyfile:/etc/Caddyfile
-      - caddy_data:/data
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - caddydat:/data
+    networks:
+      - db_network
     restart: unless-stopped
 
   commento:
     image: registry.gitlab.com/commento/commento:v1.8.0
     environment:
-      COMMENTO_ORIGIN: http://localhost:8081
+      COMMENTO_ORIGIN: https://bartlettd-commento2.duckdns.org
       COMMENTO_PORT: 8081
       COMMENTO_POSTGRES: postgres://postgres:postgres@db:5432/commento?sslmode=disable
     depends_on:
@@ -42,4 +46,4 @@ networks:
 
 volumes:
   postgres_data_volume:
-  caddy_data:
+  caddydat:
