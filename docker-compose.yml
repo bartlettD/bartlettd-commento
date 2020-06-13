@@ -19,10 +19,8 @@ services:
 
   commento:
     image: registry.gitlab.com/commento/commento:v1.8.0
-    environment:
-      COMMENTO_ORIGIN: https://bartlettd-commento2.duckdns.org
-      COMMENTO_PORT: 8081
-      COMMENTO_POSTGRES: postgres://postgres:postgres@db:5432/commento?sslmode=disable
+    env_file:
+      - $PWD/commento.env
     depends_on:
       - db
     networks:
